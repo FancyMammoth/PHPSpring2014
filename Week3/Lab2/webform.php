@@ -26,6 +26,7 @@ and open the template in the editor.
                  //todo print out error in a list
                  // only if there is a count to the array
                  // else data must be all valid
+                    
                   print_r($signup->getErrors());
                 }
             }
