@@ -15,10 +15,10 @@ class Signup {
     //put your code here
     
     /*
-     * Todo -   Store the POST values into a variable and 
+     * Todo -   X Store the POST values into a variable and 
      * Todo - output non-password fields back into the input value
-     * Todo -   Validation for all input fields
-     * Todo -   show message if there is an error other wise notify the 
+     * Todo -   X Validation for all input fields
+     * Todo -   X show message if there is an error other wise notify the 
      *          user that all the data submited is correct
      */
     
@@ -94,7 +94,13 @@ class Signup {
     */    
     public function usernameEntryIsValid() {
         
-         //todo put logic here (same as email)
+         $username = $this->getUsername();
+         
+         if ( empty($username) ) {
+            $this->errors["username"] = "Username is missing.";
+         } else if ( !Validator::nameIsValid($this->getUsername()) ) {
+            $this->errors["username"] = "Username is not valid.";                
+         }
         
         return ( empty($this->errors["username"]) ? true : false ) ;
     }
@@ -107,8 +113,18 @@ class Signup {
     */    
     public function passwordEntryIsValid() {
         
-         //todo put logic here (same as email)
-        // also check if it matches confirmpassword
+        $password = $this->getPassword();
+        $confirmPass = $this->getConfirmpassword();
+         
+         if ( empty($password) ) {
+            $this->errors["password"] = "Password is missing.";
+         } else if ( !Validator::passwordIsValid($this->getPassword()) ) {
+            $this->errors["password"] = "Password is not valid.";                
+         }
+         else if ($password != $confirmPass)
+         {
+             $this->errors["confirmPass"] = "Passwords do not match.";
+         }   
         
         return ( empty($this->errors["password"]) ? true : false ) ;
     }

@@ -16,16 +16,23 @@ and open the template in the editor.
         // put your code here
                 
             $signup = new Signup();
+            $errors = array();
             
             if ( $signup->isPostRequest()  ) {
                  
                 if ( $signup->entryIsValid() ) {
                     echo '<div class="success">All fields are good</div>';
-                } else {
-            
-                 //todo print out error in a list
-                 // only if there is a count to the array
-                 // else data must be all valid
+                } 
+                else {
+                $errors = $signup ->getErrors();
+                
+                 if ( count($errors) ) {
+                echo '<ul class="error">';
+                foreach ($errors as $value) {
+                    echo '<li>',$value,'</li>';
+                }
+                echo '</ul>';
+            }
                     
                   print_r($signup->getErrors());
                 }
@@ -38,20 +45,35 @@ and open the template in the editor.
            <fieldset>
 		<legend>Sign-up Form:</legend>
                 <label for="email">E-mail:</label> 
-                <input id="email" type="text" name="email" value="<?php echo $signup->getEmail(); ?>" /> <br />
-                
+                <input id="email" type="text" name="email" value="<?php echo $signup->getEmail(); ?>"  /> <br />
+                <?php 
+                if ( !empty($errors["email"]) ) 
+                    echo '<p class="error">',$errors["email"], '</p>';
+                ?>
                 
                 <label for="username">Username:</label>
-                <input id="username" type="text" name="username" value="<?php echo $signup->getUsername(); ?>" /> <br /> 
+                <input id="username" type="text" name="username" value="<?php echo $signup->getUsername(); ?>" /> <br />
                 
-                
+                <?php 
+                if ( !empty($errors["username"]) )
+                    echo '<p class="error">',$errors["username"], '</p>';                
+                ?>
+                             
                 <label for="password">Password:</label>
-                <input id="password" type="password" name="password" /> <br />           
+                <input id="password" type="password" name="password" class="<?php echo $passwordEmpty;?> " /> <br />           
             
+                <?php 
+                if ( !empty($errors["password"]) )
+                    echo '<p class="error">',$errors["password"], '</p>';                
+                ?>
                 
                 <label for="confirmpassword">Confirm Password:</label>
                 <input id="confirmpassword" type="password" name="confirmpassword" /> <br />           
                 
+                <?php 
+                if ( !empty($errors["confirmPass"]) )
+                    echo '<p class="error">',$errors["confirmPass"], '</p>';                
+                ?>
 
                 <input type="submit" value="Submit" />
             </fieldset>
